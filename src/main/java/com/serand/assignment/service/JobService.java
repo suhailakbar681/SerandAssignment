@@ -5,12 +5,14 @@ import com.serand.assignment.common.dto.response.RestResponse;
 import com.serand.assignment.model.Candidate;
 import com.serand.assignment.model.Job;
 import com.serand.assignment.repository.JobRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class JobService {
 
     @Autowired
@@ -26,7 +28,7 @@ public class JobService {
             return RestResponse.of(jobRepository.save(job), ApplicationMessages.CREATED_JOB_RECORD);
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_CREATED_JOB_RECORD+ex.getMessage());
+            log.error(ApplicationMessages.ERROR_CREATED_JOB_RECORD+ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_CREATED_JOB_RECORD);
         }
     }
@@ -37,7 +39,7 @@ public class JobService {
             return RestResponse.of(ApplicationMessages.SUCCESS_DELETE_JOB_RECORD);
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_DELETE_JOB_RECORD+ex.getMessage());
+            log.error(ApplicationMessages.ERROR_DELETE_JOB_RECORD+ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_DELETE_JOB_RECORD);
         }
     }
@@ -51,25 +53,25 @@ public class JobService {
             return RestResponse.fail(ApplicationMessages.NOT_FOUND_JOB_RECORD);
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_FETCHING_JOB_RECORD+ex.getMessage());
+            log.error(ApplicationMessages.ERROR_FETCHING_JOB_RECORD+ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_FETCHING_JOB_RECORD);
         }
     }
 
-    public RestResponse updateCandidate(Job job) {
+    public RestResponse updateJob(Job updatedJob) {
         try{
-            Optional<Job> existingJob = jobRepository.findById(job.getId());
+            Optional<Job> existingJob = jobRepository.findById(updatedJob.getId());
             if(existingJob.isPresent()){
-                Job job1 = existingJob.get();
-                job1.setTitle(job.getTitle());
-                return RestResponse.of(job1,ApplicationMessages.SUCCESS_UPDATE_JOB_RECORD);
+                Job job = existingJob.get();
+                job.setTitle(updatedJob.getTitle());
+                return RestResponse.of(updatedJob,ApplicationMessages.SUCCESS_UPDATE_JOB_RECORD);
             }
             else{
                 return RestResponse.fail(ApplicationMessages.NOT_FOUND_JOB_RECORD);
             }
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_UPDATE_JOB_RECORD+ex.getMessage());
+            log.error(ApplicationMessages.ERROR_UPDATE_JOB_RECORD+ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_UPDATE_JOB_RECORD);
         }
     }
@@ -79,7 +81,7 @@ public class JobService {
             return RestResponse.of(jobRepository.findAll());
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_FETCHING_JOB_RECORD+ex.getMessage());
+            log.error(ApplicationMessages.ERROR_FETCHING_JOB_RECORD+ex.getMessage());
             return RestResponse.of(ApplicationMessages.ERROR_FETCHING_JOB_RECORD);
         }
     }

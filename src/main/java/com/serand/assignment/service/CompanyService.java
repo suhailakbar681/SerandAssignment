@@ -4,12 +4,14 @@ import com.serand.assignment.common.ApplicationMessages;
 import com.serand.assignment.common.dto.response.RestResponse;
 import com.serand.assignment.model.Company;
 import com.serand.assignment.repository.CompanyRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class CompanyService {
 
     @Autowired
@@ -20,15 +22,15 @@ public class CompanyService {
             return companyRepository.save(company);
         }
         catch (Exception ex){
-            System.out.println("Error in saving Company: "+ex.getMessage());
+            log.error("Error in saving Company: "+ex.getMessage());
             return null;
         }
     }
 
     public RestResponse createCompany(Company company) {
-        Company company1 = save(company);
-        if(company1 != null){
-            return RestResponse.of(company1, ApplicationMessages.CREATED_COMPANY_RECORD);
+        Company savedCompany = save(company);
+        if(savedCompany != null){
+            return RestResponse.of(savedCompany, ApplicationMessages.CREATED_COMPANY_RECORD);
         }
         return RestResponse.fail(ApplicationMessages.ERROR_CREATED_COMPANY_RECORD);
     }
@@ -39,26 +41,26 @@ public class CompanyService {
             return RestResponse.of(ApplicationMessages.SUCCESS_DELETE_COMPANY_RECORD);
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_DELETE_COMPANY_RECORD+ex.getMessage());
+            log.error(ApplicationMessages.ERROR_DELETE_COMPANY_RECORD+ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_DELETE_COMPANY_RECORD);
         }
     }
 
-    public RestResponse updateCompany(Company company) {
+    public RestResponse updateCompany(Company updatedCompany) {
         try{
-            Optional<Company> existingCompany = companyRepository.findById(company.getId());
+            Optional<Company> existingCompany = companyRepository.findById(updatedCompany.getId());
             if(existingCompany.isPresent()){
-                Company company1 = existingCompany.get();
-                company1.setName(company.getName());
-                company1.setJobs(company.getJobs());
-                return RestResponse.of(company1,ApplicationMessages.SUCCESS_UPDATE_COMPANY_RECORD);
+                Company company = existingCompany.get();
+                company.setName(updatedCompany.getName());
+                company.setJobs(updatedCompany.getJobs());
+                return RestResponse.of(updatedCompany,ApplicationMessages.SUCCESS_UPDATE_COMPANY_RECORD);
             }
             else{
                 return RestResponse.fail(ApplicationMessages.NOT_FOUND_COMPANY_RECORD);
             }
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_UPDATE_COMPANY_RECORD+ex.getMessage());
+            log.error(ApplicationMessages.ERROR_UPDATE_COMPANY_RECORD+ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_UPDATE_COMPANY_RECORD);
         }
     }
@@ -68,7 +70,7 @@ public class CompanyService {
             return RestResponse.of(companyRepository.findAll());
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_FETCHING_COMPANY_RECORD+ex.getMessage());
+            log.error(ApplicationMessages.ERROR_FETCHING_COMPANY_RECORD+ex.getMessage());
             return RestResponse.of(ApplicationMessages.ERROR_FETCHING_COMPANY_RECORD);
         }
     }

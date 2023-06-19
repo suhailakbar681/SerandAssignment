@@ -28,4 +28,14 @@ public class SurveySubmissionController {
         return surveySubmissionService.saveSubmission(submission);
     }
 
+    @GetMapping("/search/{score}")
+    public RestResponse findSubmissionByScore(@Validated @PathVariable double score){
+        return surveySubmissionService.findSubmissionByScore(score);
+    }
+
+    @GetMapping("/search/job")
+    public RestResponse findSubmissionByJob(@Validated @RequestParam String jobTitle){
+        return surveySubmissionService.findSubmissionByJob(jobTitle);
+    }
+
 }

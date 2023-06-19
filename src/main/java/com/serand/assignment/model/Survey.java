@@ -1,4 +1,5 @@
 package com.serand.assignment.model;
+
 import com.serand.assignment.common.dto.QuestionAnswer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor

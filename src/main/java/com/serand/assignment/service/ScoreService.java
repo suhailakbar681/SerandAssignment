@@ -7,14 +7,17 @@ import com.serand.assignment.model.Score;
 import com.serand.assignment.model.Survey;
 import com.serand.assignment.model.SurveySubmission;
 import com.serand.assignment.repository.ScoreRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
 @Service
+@Slf4j
 public class ScoreService implements ScoringService {
 
     @Autowired
@@ -33,7 +36,7 @@ public class ScoreService implements ScoringService {
             return scoreRepository.save(score);
         }
         catch (Exception ex){
-            System.out.println("Error in saving score: "+ex.getMessage());
+            log.error("Error in saving score: "+ex.getMessage());
             return null;
         }
     }
@@ -43,14 +46,23 @@ public class ScoreService implements ScoringService {
         Survey survey = surveyService.findSurveyById(submission.getSurvey().getId());
         if(submission != null){
             Map<String, String> responses = submission.getResponses();
+
             int score = calculateScore(responses, survey.getSurveyQuestionsAnswers());
+
             Score scoreSave = new Score();
             scoreSave.setSurveySubmission(submission);
             scoreSave.setScore(score);
-            Score score1 = save(scoreSave);
-            return RestResponse.of(score1, ApplicationMessages.SUCCESS_SCORE_CALCULATED);
+
+            Score saved = save(scoreSave);
+            return RestResponse.of(saved, ApplicationMessages.SUCCESS_SCORE_CALCULATED);
         }
         return RestResponse.of(ApplicationMessages.ERROR_SCORE_CALCULATED);
+    }
+
+    @Override
+    public List<Score> findSubmissionByScore(double score) {
+        List<Score> scoreList = scoreRepository.findScoresByScore(score);
+        return scoreList;
     }
 
     /**

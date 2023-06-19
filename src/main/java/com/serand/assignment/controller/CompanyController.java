@@ -26,7 +26,7 @@ public class CompanyController {
         return companyService.deleteCompany(id);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RestResponse updateCompany(@Validated @RequestBody Company company){
         return companyService.updateCompany(company);
     }

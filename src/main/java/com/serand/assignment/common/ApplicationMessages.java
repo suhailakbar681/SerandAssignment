@@ -42,4 +42,5 @@ public class ApplicationMessages {
 
     public static String CREATED_SUBMISSION_RECORD = "Survey Submission record saved.";
     public static String ERROR_CREATED_SUBMISSION_RECORD = "Error in saving Survey Submission record.";
+    public static String ERROR_SUBMISSION_SCORE_VALUE = "Score must be greater than or equal to 0.";
 }

@@ -30,10 +30,9 @@ public class JobController {
         return jobService.getJobById(jobId);
     }
 
-
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RestResponse updateJob(@Validated @RequestBody Job job){
-        return jobService.updateCandidate(job);
+        return jobService.updateJob(job);
     }
 
     @GetMapping("/all")

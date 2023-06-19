@@ -46,7 +46,7 @@ public class CandidateController {
 		return candidateService.getCandidateByEmail(email);
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public RestResponse updateCandidate(@Validated @RequestBody Candidate candidate){
 		return candidateService.updateCandidate(candidate);
 	}

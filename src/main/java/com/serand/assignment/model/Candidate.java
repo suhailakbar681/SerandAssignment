@@ -1,5 +1,6 @@
 package com.serand.assignment.model;
-import com.serand.assignment.common.enumerate.Gender;
+
+import com.serand.assignment.common.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

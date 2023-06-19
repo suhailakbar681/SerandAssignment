@@ -4,12 +4,14 @@ import com.serand.assignment.common.ApplicationMessages;
 import com.serand.assignment.common.dto.response.RestResponse;
 import com.serand.assignment.model.Survey;
 import com.serand.assignment.repository.SurveyRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class SurveyService {
 
     @Autowired
@@ -25,7 +27,7 @@ public class SurveyService {
             return RestResponse.of(surveyRepository.save(survey),ApplicationMessages.CREATED_SURVEY_RECORD);
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_CREATED_SURVEY_RECORD+ex.getMessage());
+            log.info(ApplicationMessages.ERROR_CREATED_SURVEY_RECORD + ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_CREATED_SURVEY_RECORD);
         }
     }
@@ -47,8 +49,8 @@ public class SurveyService {
             }
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_DELETE_SURVEY_RECORD+ex.getMessage());
-            return RestResponse.fail(ApplicationMessages.ERROR_DELETE_SURVEY_RECORD+ex.getMessage());
+            log.info(ApplicationMessages.ERROR_DELETE_SURVEY_RECORD + ex.getMessage());
+            return RestResponse.fail(ApplicationMessages.ERROR_DELETE_SURVEY_RECORD + ex.getMessage());
         }
     }
 
@@ -73,7 +75,7 @@ public class SurveyService {
             }
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_UPDATE_SURVEY_RECORD+ex.getMessage());
+            log.info(ApplicationMessages.ERROR_UPDATE_SURVEY_RECORD + ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_UPDATE_SURVEY_RECORD);
         }
     }
@@ -87,7 +89,7 @@ public class SurveyService {
             return RestResponse.of(surveyRepository.findAll());
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_FETCHING_SURVEY_RECORD+ex.getMessage());
+            log.info(ApplicationMessages.ERROR_FETCHING_SURVEY_RECORD + ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_FETCHING_SURVEY_RECORD);
         }
     }
@@ -102,7 +104,7 @@ public class SurveyService {
             return RestResponse.of(surveyRepository.findByCompanyId(companyId));
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_FETCHING_SURVEY_RECORD+ex.getMessage());
+            log.info(ApplicationMessages.ERROR_FETCHING_SURVEY_RECORD + ex.getMessage());
             return RestResponse.fail(ApplicationMessages.ERROR_FETCHING_SURVEY_RECORD);
         }
     }
@@ -114,12 +116,12 @@ public class SurveyService {
                 return survey.get();
             }
             else{
-                System.out.println(ApplicationMessages.SURVEY_RECORD_NOT_FOUND);
+                log.info(ApplicationMessages.SURVEY_RECORD_NOT_FOUND);
                 return null;
             }
         }
         catch (Exception ex){
-            System.out.println(ApplicationMessages.ERROR_FETCHING_SURVEY_RECORD+ex.getMessage());
+            log.info(ApplicationMessages.ERROR_FETCHING_SURVEY_RECORD + ex.getMessage());
             return null;
         }
     }

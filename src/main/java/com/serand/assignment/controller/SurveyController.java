@@ -38,7 +38,7 @@ public class SurveyController {
 		return surveyService.getSurveysByCompanyId(companyId);
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public RestResponse updateSurvey(@Validated @RequestBody Survey survey){
 		return surveyService.updateSurvey(survey);
 	}
